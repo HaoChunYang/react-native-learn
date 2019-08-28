@@ -104,18 +104,33 @@ export default class LoginLeaf extends React.PureComponent {
 	userPressAddressBook () {
 		console.log('user press address book is called.');
 		var { NativeAppEventEmitter } = require('react-native');
-		this.NativeMsgSubscription = NativeAppEventEmitter.addListener(
-			'NativeModuleMsg', (reminder) => { this.handleNativeInterfaceMsg (reminder.message);}
-		);
+		// this.NativeMsgSubscription = NativeAppEventEmitter.addListener(
+		// 	'NativeModuleMsg', (reminder) => { this.handleNativeInterfaceMsg (reminder.message);}
+		// );//设置事件监听函数
 		let ExampleInterface = require('react-native').NativeModules.ExampleInterface;
-		ExampleInterface.sendMessage('{\"msgType\": \"pickContact\"}');
+		ExampleInterface.sendMessage('{\"msgType\": \"pickContact\"}').then(
+			(result) => {
+				console.log('resolve back');
+				console.log(result);
+				let msgObj = JSON.parse (result);
+				this.setState ({ inputedNum : msgObj.peerNumber});
+			}
+		).catch(
+			(error) => {
+				console.log(error);
+				console.log(error.message);
+				console.log(error.code);
+				console.log(error.nativeStackIOS);
+				console.log(error.nativeStackIOS.length);
+			}
+		);
 	}
 
 	handleNativeInterfaceMsg (aMsg) {
 		console.log(aMsg);
 		let msgObj = JSON.parse (aMsg);
 		this.setState({inputedNum : msgObj.peerNumber });
-	}
+	}//实现事件监听函数
 };
 
 const styles = StyleSheet.create({

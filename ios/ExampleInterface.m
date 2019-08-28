@@ -16,6 +16,10 @@
 
 
 @implementation ExampleInterface
+{
+  RCTPromiseResolveBlock _resolveBlock;
+  RCTPromiseRejectBlock _rejectBlock;
+}
 
 - (instancetype) init {
   return self;
@@ -33,8 +37,12 @@
 RCT_EXPORT_MODULE();
 
 //声明需要提供给RN缓件调用的方法
-RCT_EXPORT_METHOD(sendMessage:(NSString *) msg) {
+RCT_EXPORT_METHOD(sendMessage:(NSString *) msg resolver:(RCTPromiseResolveBlock) resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSLog(@"收到NR 传来的消息 %@", msg);
+  
+  _resolveBlock = resolve;
+  _rejectBlock = reject;//保存回调参数
+  
   //检查收到有消息是否为JSON格式
   NSData * data = [msg dataUsingEncoding:NSUTF8StringEncoding];
   NSError * error ;
@@ -66,6 +74,7 @@ RCT_EXPORT_METHOD(sendMessage:(NSString *) msg) {
 
 - (void)calendarEventReminderReceived:(NSNotification *)notification {
   if (notification.object == nil) {
+    _rejectBlock(@"user canceled", @"user-canceled", nil);
     return;
   }
   self.contactPhoneNumber = notification.object;
@@ -94,7 +103,8 @@ RCT_EXPORT_METHOD(sendMessage:(NSString *) msg) {
   NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
   
   //向rn侧发送消息
-  [self.bridge.eventDispatcher sendAppEventWithName:@"NativeModuleMsg" body:@{@"message":str}];
+//  [self.bridge.eventDispatcher sendAppEventWithName:@"NativeModuleMsg" body:@{@"message":str}];
+  _resolveBlock(str);
 }
 
 @end
