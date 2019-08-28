@@ -5,7 +5,8 @@ import {
   Text,
   StatusBar,
   Dimensions,
-  TextInput,
+	TextInput,
+	Alert,
 } from 'react-native';
 
 let widthOfMargin = Dimensions.get('window').width * 0.05;
@@ -66,9 +67,55 @@ export default class LoginLeaf extends React.PureComponent {
     );
 	}
 	userPressConfirm(){
-		this.props.onLoginPressed ( this.state.inputedNum, this.state.inputedPW);
+		// this.props.onLoginPressed ( this.state.inputedNum, this.state.inputedPW);
+		Alert.alert (
+			'提示',
+			'确定使用' + this.state.inputedNum + '号码登录吗?',
+			[{text : '确定', onPress : this.jumpToWaiting.bind(this) },
+			// {text : '选项2', onPress : this.option2Selected }, 
+			{text : '取消', onPress : this.option3Selected , style : 'cancel'},
+			// {text : '选项4', onPress : this.option4Selected },
+			],
+			{
+				onDismiss : () => {
+					console.log('Android 平台点击非Alert窗口区域让Alert窗口消失时，这个回调函数将被调用。');
+				}
+			},
+			{
+				cancelable : false  //加上此行，禁止安卓上用户通过点击屏幕上非Alert窗口区域让Alert窗口消失。
+			}
+		);
 	}
-	userPressAddressBook () {}
+	jumpToWaiting () {
+		this.props.onLoginPressed (this.state.inputedNum, this.state.inputedPW);
+	}
+	option1Selected() {
+		console.log('option1 Selected.');
+	}
+	option2Selected() {
+		console.log('option2 Selected.');
+	}
+	option3Selected() {
+		console.log('option3 Selected.');
+	}
+	option4Selected() {
+		console.log('option4 Selected.');
+	}
+	userPressAddressBook () {
+		console.log('user press address book is called.');
+		var { NativeAppEventEmitter } = require('react-native');
+		this.NativeMsgSubscription = NativeAppEventEmitter.addListener(
+			'NativeModuleMsg', (reminder) => { this.handleNativeInterfaceMsg (reminder.message);}
+		);
+		let ExampleInterface = require('react-native').NativeModules.ExampleInterface;
+		ExampleInterface.sendMessage('{\"msgType\": \"pickContact\"}');
+	}
+
+	handleNativeInterfaceMsg (aMsg) {
+		console.log(aMsg);
+		let msgObj = JSON.parse (aMsg);
+		this.setState({inputedNum : msgObj.peerNumber });
+	}
 };
 
 const styles = StyleSheet.create({
