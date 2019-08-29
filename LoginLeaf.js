@@ -72,7 +72,7 @@ export default class LoginLeaf extends React.PureComponent {
 			'提示',
 			'确定使用' + this.state.inputedNum + '号码登录吗?',
 			[{text : '确定', onPress : this.jumpToWaiting.bind(this) },
-			// {text : '选项2', onPress : this.option2Selected }, 
+			{text : '跳转touch', onPress : this.jumpToTouchView.bind(this) }, 
 			{text : '取消', onPress : this.option3Selected , style : 'cancel'},
 			// {text : '选项4', onPress : this.option4Selected },
 			],
@@ -88,6 +88,10 @@ export default class LoginLeaf extends React.PureComponent {
 	}
 	jumpToWaiting () {
 		this.props.onLoginPressed (this.state.inputedNum, this.state.inputedPW);
+	}
+	jumpToTouchView () {
+		console.log('touch view');
+		this.props.onTouchViewPressed();
 	}
 	option1Selected() {
 		console.log('option1 Selected.');

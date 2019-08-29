@@ -30,10 +30,10 @@ export default class WaitingLeaf extends React.PureComponent {
     }
 }
 
-WaitingLeaf.PropTypes = {
-    phoneNumber : PropTypes.string,
-    userPW : PropTypes.string,
-}
+// WaitingLeaf.PropTypes = {
+//     phoneNumber : PropTypes.string,
+//     userPW : PropTypes.string,
+// }
 
 let styles = StyleSheet.create ({
     container : {

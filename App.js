@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import LoginLeaf from './LoginLeaf';
 import WaitingLeaf from './WaitingLeaf';
+import TouchViewTest from './TouchViewTest';
 
 export default class App extends React.PureComponent {
   constructor(props){
@@ -34,14 +35,23 @@ export default class App extends React.PureComponent {
     });
   }
 
+  onTouchViewPressed = () => {
+    this.setState ({ currentScene : 'Touch' });
+  }
+
   render(){
     if (this.state.currentScene === 'Login'){
-      return <LoginLeaf onLoginPressed = {this.onLoginPressed} />
-    }else {
+      return <LoginLeaf onLoginPressed = {this.onLoginPressed}
+        onTouchViewPressed = {this.onTouchViewPressed} />
+    }else if(this.state.currentScene === 'Waiting'){
       return (
         <WaitingLeaf phoneNumber = {this.state.phoneNumber}
           onGobackPressed = {this.handleBackSignal}
           userPW = {this.state.userPW} />
+      )
+    }else{
+      return(
+        <TouchViewTest onTouchViewPressed = {this.onTouchViewPressed.bind(this)} />
       )
     }
   }
