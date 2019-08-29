@@ -51,8 +51,15 @@ export default class App extends React.PureComponent {
       )
     }else{
       return(
-        <TouchViewTest onTouchViewPressed = {this.onTouchViewPressed.bind(this)} />
+        <TouchViewTest onTouchViewPressed = {this.onTouchViewPressed.bind(this)} 
+          touchBlack = {this.touchBlack.bind(this)}/>
       )
+    }
+  }
+
+  touchBlack(){
+    if(this.state.currentScene === 'Touch'){
+      this.setState({currentScene : 'Login'});
     }
   }
 

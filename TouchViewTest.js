@@ -26,8 +26,17 @@ export default class TouchViewTest extends React.PureComponent {
                 onTouchMove = {this._onTouchMove}
                 onTouchStart = {this._onTouchStart}
                 onTouchEnd = {this._onTouchEnd}>
+                <Text style = {styles.bigTextPrompt}
+                    onPress = {()=>{this.onGobackPress()}}>
+                    返回
+                </Text>
             </View>
         );
+    }
+
+    onGobackPress () {
+        console.log('back touch');
+        this.props.touchBlack();
     }
 }
 
@@ -35,5 +44,13 @@ let styles = StyleSheet.create({
     container : {
         flex : 1,
         backgroundColor : '#F5FCFF',
+        alignItems : 'center',
+        justifyContent : 'center',
+    },
+    bigTextPrompt : {
+        width : 200,
+        backgroundColor : 'gray',
+        textAlign : 'center',
+        fontSize : 40,
     }
 });
