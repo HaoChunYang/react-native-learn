@@ -63,6 +63,10 @@ export default class LoginLeaf extends React.PureComponent {
           onPress = {()=>this.userPressAddressBook()}>
             通讯录
         </Text>
+				<Text style = {styles.bigTextPrompt}
+					onPress = { ()=> {this.props.onPointEventsPressed() }}>
+					Pointer Events
+				</Text>
       </View>
     );
 	}
@@ -92,6 +96,9 @@ export default class LoginLeaf extends React.PureComponent {
 	jumpToTouchView () {
 		console.log('touch view');
 		this.props.onTouchViewPressed();
+	}
+	jumpToPointerEventsTest (){
+		this.props.on
 	}
 	option1Selected() {
 		console.log('option1 Selected.');

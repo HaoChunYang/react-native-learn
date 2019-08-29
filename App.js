@@ -14,6 +14,7 @@ import {
 import LoginLeaf from './LoginLeaf';
 import WaitingLeaf from './WaitingLeaf';
 import TouchViewTest from './TouchViewTest';
+import PointerEventsTest from './src/pages/PointerEventsTest';
 
 export default class App extends React.PureComponent {
   constructor(props){
@@ -42,18 +43,29 @@ export default class App extends React.PureComponent {
   render(){
     if (this.state.currentScene === 'Login'){
       return <LoginLeaf onLoginPressed = {this.onLoginPressed}
-        onTouchViewPressed = {this.onTouchViewPressed} />
+        onTouchViewPressed = {this.onTouchViewPressed} 
+        onPointEventsPressed = {() => {this.setState ({ currentScene : 'PointerEvents'})}}/>
     }else if(this.state.currentScene === 'Waiting'){
       return (
         <WaitingLeaf phoneNumber = {this.state.phoneNumber}
           onGobackPressed = {this.handleBackSignal}
           userPW = {this.state.userPW} />
       )
-    }else{
+    }else if(this.state.currentScene === 'Touch'){
       return(
-        <TouchViewTest onTouchViewPressed = {this.onTouchViewPressed.bind(this)} 
+        <TouchViewTest  
           touchBlack = {this.touchBlack.bind(this)}/>
       )
+    }else if (this.state.currentScene === 'PointerEvents'){
+      return (
+        <PointerEventsTest pointerEventsBack = { this.onGoback }/>
+      );
+    }
+  }
+
+  onGoback = ()=>{
+    if (this.state.currentScene !== 'Login'){
+      this.setState ({currentScene : 'Login'});
     }
   }
 
