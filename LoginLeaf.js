@@ -67,9 +67,19 @@ export default class LoginLeaf extends React.PureComponent {
 					onPress = { ()=> {this.props.onPointEventsPressed() }}>
 					Pointer Events
 				</Text>
+				<Text style = {styles.bigTextPrompt}
+					onPress = { () => this.userPressImageTest() }>
+					ImageTest
+				</Text>
       </View>
     );
 	}
+
+	userPressImageTest = ()=>{
+		console.log('Image test');
+		this.props.onImageTestPressed();
+	}
+
 	userPressConfirm(){
 		// this.props.onLoginPressed ( this.state.inputedNum, this.state.inputedPW);
 		Alert.alert (

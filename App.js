@@ -15,6 +15,7 @@ import LoginLeaf from './LoginLeaf';
 import WaitingLeaf from './WaitingLeaf';
 import TouchViewTest from './TouchViewTest';
 import PointerEventsTest from './src/pages/PointerEventsTest';
+import ImageTest from './src/pages/ImageTest';
 
 export default class App extends React.PureComponent {
   constructor(props){
@@ -40,11 +41,16 @@ export default class App extends React.PureComponent {
     this.setState ({ currentScene : 'Touch' });
   }
 
+  onImageTestPressed = () => {
+    this.setState ({ currentScene : 'ImageTest'});
+  }
+
   render(){
     if (this.state.currentScene === 'Login'){
       return <LoginLeaf onLoginPressed = {this.onLoginPressed}
         onTouchViewPressed = {this.onTouchViewPressed} 
-        onPointEventsPressed = {() => {this.setState ({ currentScene : 'PointerEvents'})}}/>
+        onPointEventsPressed = {() => {this.setState ({ currentScene : 'PointerEvents'})}}
+        onImageTestPressed = { this.onImageTestPressed }/>
     }else if(this.state.currentScene === 'Waiting'){
       return (
         <WaitingLeaf phoneNumber = {this.state.phoneNumber}
@@ -60,6 +66,8 @@ export default class App extends React.PureComponent {
       return (
         <PointerEventsTest pointerEventsBack = { this.onGoback }/>
       );
+    }else if (this.state.currentScene === 'ImageTest'){
+      return <ImageTest onGoback = {this.onGoback}/>
     }
   }
 
